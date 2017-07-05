@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle right>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title><span style="color: #c9c9c9 !important;">Finding Flow</span></ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="container">
+  
+  <ion-img class="cycle_image" [src]="currentCycleImage"></ion-img>
+
+  <div class="extra-text-top"><h5>{{timerText.current}} / {{timerText.max}}</h5></div>
+
+  <div align="center" style="height:70%;">
+    
+    <ion-img class="img-button" (click)="onButtonClick()" [src]="currentButtonImage"></ion-img>
+
+    <round-progress class="round-progress"
+      [current]="timerSettings.current"
+      [max]="timerSettings.max"
+      [color]="'#539941'"
+      [background]="'#7c001b'"
+      [radius]="140"
+      [stroke]="10"
+      [semicircle]="false"
+      [rounded]="true"
+      [clockwise]="true"
+      [responsive]="false"
+      [duration]="800"
+      [animation]="timerSettings.animation"
+      [animationDelay]="0"
+    ></round-progress>
+    <!--(onRender)="doSomethingWithCurrentValue($event)"-->
+    
+    <div class="image-text"><h1>{{buttonText}}</h1></div>
+
+  </div>
+
+  <!--<div class="extra-text-bottom"><h5>{{timeData.todayFlowTimeText}} / {{timeData.todayPauseTimeText}}</h5></div>
+  <div class="extra-text-bottom"><h5>몰입시간 / 중단시간</h5></div>-->
+
+</ion-content>
