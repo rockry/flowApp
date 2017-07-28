@@ -1,19 +1,29 @@
 <ion-menu [content]="content" side="right" type="overlay">
   <ion-header>
     <ion-toolbar>
-      <ion-title>Menu</ion-title>
+      <ion-title>Menu</ion-title> <!--메뉴-->
+      <button ion-button menuToggle right>
+        <ion-icon name="menu"></ion-icon>
+      </button>
     </ion-toolbar>
   </ion-header>
 
   <ion-content>
     <ion-list>
       <ion-item>
-        <ion-label>setting1</ion-label>
-        <ion-toggle [(ngModel)]="setting1"></ion-toggle>
+        <ion-label>Screen Always On</ion-label> <!--스크린 항상 켜기-->
+        <ion-toggle [(ngModel)]="isAlwaysOn" (ngModelChange)="changeAlwaysOn(isAlwaysOn)"></ion-toggle>
       </ion-item>
-      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        {{p.title}}
+      <ion-item>
+        <ion-label>Alarm Sound</ion-label> <!--소리 알림-->
+        <ion-toggle [(ngModel)]="isAlarmSound" (ngModelChange)="changeAlarmSound(isAlarmSound)"></ion-toggle>
+      </ion-item>
+      <button menuClose ion-item (click)="openGraphPage()">
+        Statistics Graph <!--통계 그래프-->
       </button>
+      <!--<button menuClose ion-item (click)="openPage(timeSettingPage)">
+        Time Setting <!--시간 설정-->
+      <!--</button>-->
     </ion-list>
   </ion-content>
 

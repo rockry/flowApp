@@ -2,28 +2,34 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import {NavController, App, ViewController} from "ionic-angular/index";
+import { App, ViewController} from "ionic-angular/index";
+import { Insomnia } from '@ionic-native/insomnia';
+import { Storage } from '@ionic/storage';
 
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+// import { ListPage } from '../pages/list/list';
+import { GraphPage } from '../pages/graph/graph';
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
-  
+  isAlwaysOn : Boolean;
+  isAlarmSound : Boolean;
   rootPage: any = HomePage;
   
   pages: Array<{title: string, component: any}>;
   
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private app:App) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, private app:App,
+  private insomnia: Insomnia, private storage: Storage) {
     this.initializeApp();
     
     // used for an example of ngFor and navigation
     this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage }
+    { title: 'Home', component: HomePage },
+    { title: 'Home', component: HomePage },
+    { title: 'Graph', component: GraphPage }
     ];
     
   }
@@ -38,7 +44,7 @@ export class MyApp {
     this.platform.registerBackButtonAction(() => {
       let nav = this.app.getActiveNav();
       let activeView: ViewController = nav.getActive();
-
+      
       if(activeView != null) {
         if(nav.canGoBack()) {
           nav.pop();
@@ -49,6 +55,16 @@ export class MyApp {
         }
       }
     });
+    this.storage.get('isAlwaysOn').then((val) => {
+      console.log('stoage.get isAlwaysOn, ', val);
+      this.isAlwaysOn = val;
+      this.changeAlwaysOn(this.isAlwaysOn);
+    });
+    this.storage.get('isAlarmSound').then((val) => {
+      console.log('storage.get isAlarmSound, ', val);
+      this.isAlarmSound = val;
+      this.changeAlarmSound(this.isAlarmSound);
+    });
   }
   
   openPage(page) {
@@ -56,4 +72,41 @@ export class MyApp {
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
   }
+  
+  openGraphPage() {
+    // Reset the content nav to have just this page
+    // we wouldn't want the back button to show in this scenario
+    this.nav.push(GraphPage);
+  }
+  
+  changeAlwaysOn(isAlwaysOn) {
+    console.log("changeAlwaysOn, ", isAlwaysOn);
+    this.storage.set('isAlwaysOn', isAlwaysOn);
+    if(isAlwaysOn) {
+      this.insomnia.keepAwake()
+      .then(
+      () => console.log('keepAwake success'),
+      () => console.log('keepAwake error')
+      );
+    } else {
+      this.insomnia.allowSleepAgain()
+      .then(
+      () => console.log('allowSleepAgain success'),
+      () => console.log('allowSleepAgain error')
+      );
+    }
+  }
+  
+  changeAlarmSound(isAlarmSound) {
+    console.log("changeAlarmSound, ", isAlarmSound);
+    this.storage.set('isAlarmSound', isAlarmSound);
+    if(isAlarmSound) {
+      this.rootPage.isAlarmSound = true;
+    } else {
+      this.rootPage.isAlarmSound = false;
+    }
+  }
+  
+  
+  
 }
