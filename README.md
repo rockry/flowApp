@@ -1,10 +1,10 @@
 # ionic2 개발하기
 
 ## 서론
-국내에서 많이 사용되는 Hybrid Web Framework들은 angular reactjs vuejs meteor 등 다양하다. 그중에서 하이브리드 앱 UI 개발에 중점을 두고 생산성을 높여 빠르게 개발하도록 도와주는 ionic2 framework를 이용하여 앱을 만드는 과정을 블로그에 개재하려고 한다.
+많이 사용되는 Hybrid Web Framework들은 angular reactjs vuejs meteor 등 다양하다. 그중에서 하이브리드 앱 UI 개발에 중점을 두고 생산성을 높여 빠르게 개발하도록 도와주는 ionic2 framework를 이용하여 앱을 만드는 과정을 블로그에 개재하려고 한다.
 angular나 javascript에 대한 선행지식이 있어야 이해하기 수월하다.
 
-ionic이란 cordova라는 framework위에서 동작하며, angular 코드를 사용하여 하이브리드 앱을 제작하며, 한번의 코드 작성으로 ios, android, windows 등의 앱을 제작할 수 있다.
+ionic이란 angular framework위에서 동작하는 UI framework이라고 할 수 있으며, cordova라는 플랫폼을 통해 하이브리드 앱을 제작하도록 도와준다. 한번의 코드 작성으로 ios, android, windows 등의 앱을 제작할 수 있다.
 
 ionic2는 angular2, typescript 기반으로 작성된다.
 
