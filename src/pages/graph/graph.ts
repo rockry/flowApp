@@ -19,13 +19,13 @@ export class GraphPage {
     responsive: true
   };
   
-  chartLabels: string[] = ['Test 1', 'Test 2', 'Test 3', 'Test 4']; //X-axis, date
+  chartLabels: string[] = []; //X-axis, date
   chartType: string = 'line'; //line, bar, radar, pie, polarArea, doughnut
   chartLegend: boolean = true;
   
   chartData: any[] = [
-    { data: [75, 80, 45, 100], label: 'Time of Flow' },
-    { data: [80, 55, 75, 95], label: 'Time of interrupted' }
+    { data: [], label: 'Time of Flow' },
+    { data: [], label: 'Time of interrupted' }
   ];
   
   thisMonth : any;
@@ -36,7 +36,17 @@ export class GraphPage {
   
   constructor(public navCtrl: NavController, private dbservice:dbService) {
     var date = new Date();
-    this.thisMonth = date.getFullYear() + '-' + (date.getMonth()+1);
+    this.thisMonth = date.getFullYear() + '/' + (date.getMonth()+1);
+    
+    dbservice.queryTimeData(this.thisMonth).then((results) => {
+      console.log( this.thisMonth, ', timeData : ', results);
+      for(let i = 0; i < results.length; i++) {
+        if(results[i] && results[i].hasOwnProperty('todayFlowTime')) {
+          this.chartLabels.push(results[i].name);
+          this.chartData[0].data.push(results[i].timeData.todayFlowTime);
+          this.chartData[1].data.push(results[i].timeData.todayPauseTime);
+        }
+      }
+    });
   }
-  
 }

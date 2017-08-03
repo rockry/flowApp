@@ -12,8 +12,8 @@ import { dbService } from '../../services/dbService/db.service';
 })
 export class HomePage {
   public static isAlarmSound: boolean = false; //local storage에 저장필요
-  public static readonly CYCLE_IMG_PATH: string[] = ["assets/images/cycle_status_0.png",
-  "assets/images/cycle_status_1.png",
+  public static readonly CYCLE_IMG_PATH: string[] = ["assets/images/cycle_status_0.png", // https://stackoverflow.com/questions/36158848/what-is-the-best-way-to-declare-a-global-variable-in-angular-2-typescript
+  "assets/images/cycle_status_1.png",             // need to adjust GLOBAL CONSTANT MANAGEMENT
   "assets/images/cycle_status_2.png",
   "assets/images/cycle_status_3.png",
   "assets/images/cycle_status_4.png",
@@ -86,11 +86,10 @@ export class HomePage {
           this.platform.ready().then(() => {
             var lastTimeBackPress = 0;
             var TIME_PERIOD_TO_EXIT = 2000;
-            // navCtrl.setRoot("HomePage");
             var date = new Date();
             this.today = date.getFullYear() + '/' + (date.getMonth()+1) + '/' + date.getDate();
             dbservice.queryTimeData(this.today).then((results) => {
-              console.log( this.today + '_timeData, ', results);
+              console.log( this.today + ', timeData : ', results);
               if(results[0] && results[0].hasOwnProperty('todayFlowTime')) {
                 this.timeData.todayFlowTime = results[0].todayFlowTime;
                 this.timeData.todayFlowTimeText = this.timeToText(this.timeData.todayFlowTime);
@@ -98,9 +97,8 @@ export class HomePage {
                 this.timeData.todayPauseTimeText = this.timeToText(this.timeData.todayPauseTime);
               }
             });
-                        
+            
             this.platform.registerBackButtonAction(() => {
-              // this.platform.pause;
               let view = this.navCtrl.getActive();
               if(view.component.name=="HomePage"){
                 //Double check to exit app                  
@@ -178,6 +176,7 @@ export class HomePage {
               }, 1000);
             }
           } else { //FLOW였을 경우
+            
             this.buttonStatus = HomePage.BT_STATUS_PAUSE;
             this.currentButtonImage = HomePage.BT_IMG_PATH[HomePage.BT_STATUS_PAUSE];
             this.buttonText = HomePage.BT_TXT[HomePage.BT_STATUS_PAUSE];
@@ -216,19 +215,19 @@ export class HomePage {
                 console.log("goRest");
                 this.nativeAudio.play('goRest').then(
                   ()=>{console.log("goRest done");}, ()=>{console.log("goRest err");});
-                }
+              }
                 
                 this.buttonStatus = HomePage.BT_STATUS_REST;
                 this.currentButtonImage = HomePage.BT_IMG_PATH[HomePage.BT_STATUS_REST];
                 this.buttonText = HomePage.BT_TXT[HomePage.BT_STATUS_REST];
                 this.timerSettings.max = 5*60;
                 this.timerText.max = this.timeToText(this.timerSettings.max);
-              } else if(this.currentCycleStatus == 9) {         //마지막 status는 휴식30분
+              } else if(this.currentCycleStatus == 9) {         //마지막 status는 30분 휴식
                 if(HomePage.isAlarmSound) {
                   console.log("goRest");    
                   this.nativeAudio.play('goRest').then(
                     ()=>{console.log("goRest done");}, ()=>{console.log("goRest err");});
-                  }
+                }
                   this.buttonStatus = HomePage.BT_STATUS_REST;
                   this.currentButtonImage = HomePage.BT_IMG_PATH[HomePage.BT_STATUS_REST];
                   this.buttonText = HomePage.BT_TXT[HomePage.BT_STATUS_REST];
@@ -247,7 +246,7 @@ export class HomePage {
                     this.timerText.max = this.timeToText(this.timerSettings.max);
                   }
                 }
-              }
+          }
               
               /*
               Pause일 경우 1초간격으로 todayPuaseTime과 Text를 업데이트.

@@ -56,7 +56,7 @@ export class MyApp {
       }
     });
     this.storage.get('isAlwaysOn').then((val) => {
-      console.log('stoage.get isAlwaysOn, ', val);
+      console.log('storage.get isAlwaysOn, ', val);
       this.isAlwaysOn = val;
       this.changeAlwaysOn(this.isAlwaysOn);
     });
