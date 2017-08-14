@@ -11,6 +11,13 @@
 </ion-header>
 
 <ion-content padding>
-  <canvas baseChart height="300" [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions" [legend]="chartLegend"
-  [chartType]="chartType"></canvas>
+  <canvas baseChart 
+  height="300" 
+  [datasets]="chartData" 
+  [labels]="chartLabels" 
+  [options]="chartOptions" 
+  [legend]="chartLegend"
+  [chartType]="chartType" 
+  [colors]="chartColors"
+  (chartClick)="chartClicked($event)"></canvas>
 </ion-content>

@@ -36,3 +36,28 @@ https://github.com/valor-software/ng2-charts
 http://valor-software.com/ng2-charts/
 
 ---
+
+## DB 사용하기
+
+처음에는 @ionic/storage에서 제공하는 기본 Storage를 사용하려고 하였다.
+그러나 Storage는 key,value 쌍으로 값을 get, set 할 수 있을 뿐 query를 통해서 데이터를 filtering하기가 힘들었다.
+그래서 no-SQL도 익힐겸 적당한 DB를 사용해보기로 했다.
+내가 원하는 DB 조건은 아래와 같았다.
+1. no-SQL
+2. 사용하기 쉬움.(문서화)
+3. javascript 친화적
+4. 기본적인 query 메소드들을 제공.
+5. 작은 DB에 사용하기좋게 가볍고 빠름.
+
+검색하던 중 괜찮은 db를 찾아서 한번 사용해보기로 했다.
+http://lokijs.org/
+
+꽤 빠르고 가볍고 사용하기도 편했다.
+회사 프로젝트나 대형 프로젝트에서 사용하기에는 힘들것 같지만, 개인 프로젝트로 사용하고 no-SQL DB 사용법을 익히는데는 많은 도움이 될 것 같다.
+
+간단한 사용법은 아래 ionic forum글을 참고했다.
+https://forum.ionicframework.com/t/persistent-no-sql-storage-in-ionic2-tutorial/55570
+
+실제 사용법은 아래 jsdoc이나 sandbox에서 직접 돌려보면서 사용법을 익히면 좋다.
+https://rawgit.com/techfort/LokiJS/master/jsdoc/index.html
+http://www.obeliskos.com/LokiSandbox/
