@@ -24,6 +24,7 @@ export class dbService {
             }
             dbService.isdbLoaded = true;
             this.dbloadedEmitter.emit(true);
+        }).catch(()=>{
         });
     }
     
@@ -98,14 +99,35 @@ export class dbService {
     }
     
     importAll() {
-        let self = this;
-        let results = localforage.getItem('flowApp.db').then(function(value) {
-            console.log('the full database has been retrieved');
-            self.db.loadJSON(value);
-            self.timeDataCollection = self.db.getCollection('timeData');        // slight hack! we're manually reconnecting the collection variable
-        }).catch(function(err) {
-            console.log('error importing database: ' + err);
+        const self = this;
+        return new Promise((resolve, reject)=>{
+            let results = localforage.getItem('flowApp.db').then(function(value) {
+                console.log('the full database has been retrieved');
+                if(!self.db) {
+                    self.db = new loki('flowApp.db');
+                }
+                self.db.loadJSON(value);
+                self.timeDataCollection = self.db.getCollection('timeData');        // slight hack! we're manually reconnecting the collection variable
+                resolve(results);
+            }).catch(function(err) {
+                console.log('error importing database: ' + err);
+                reject();
+            });
         });
-        return Promise.resolve(results);
+    }
+    
+    clearAll() {
+        const self = this;
+        return new Promise((resolve, reject)=>{
+            localforage.removeItem('flowApp.db').then(function (value) {
+                console.log('database successfully cleared');
+                self.db = new loki('flowApp.db');
+                self.timeDataCollection = self.db.addCollection('timeData');
+                resolve();
+            }).catch(function(err) {
+                console.log('error while clear: ' + err);
+                reject();
+            });
+        });
     }
 }

@@ -55,13 +55,20 @@ export class MyApp {
         });
         this.storage.get('isAlwaysOn').then((val) => {
             console.log('storage.get isAlwaysOn, ', val);
-            
             this.isAlwaysOn = val || false;
+            this.changeAlwaysOn(this.isAlwaysOn);
+        }).catch(()=>{
+            console.log('storage.get isAlwaysOn fail set default(true)');
+            this.isAlwaysOn = true;
             this.changeAlwaysOn(this.isAlwaysOn);
         });
         this.storage.get('isAlarmSound').then((val) => {
             console.log('storage.get isAlarmSound, ', val);
             this.isAlarmSound = val || false;
+            this.changeAlarmSound(this.isAlarmSound);
+        }).catch(()=>{
+            console.log('storage.get isAlarmSound fail set default(true)');
+            this.isAlarmSound = true;
             this.changeAlarmSound(this.isAlarmSound);
         });
     }

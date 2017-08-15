@@ -10,14 +10,30 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <canvas baseChart 
-  height="300" 
-  [datasets]="chartData" 
-  [labels]="chartLabels" 
-  [options]="chartOptions" 
-  [legend]="chartLegend"
-  [chartType]="chartType" 
-  [colors]="chartColors"
-  (chartClick)="chartClicked($event)"></canvas>
+<ion-content padding style="height: 90%;">
+  <div class="chart">
+    <canvas baseChart 
+    height="300" 
+    [datasets]="chartData" 
+    [labels]="chartLabels" 
+    [options]="chartOptions" 
+    [legend]="chartLegend"
+    [chartType]="chartType" 
+    [colors]="chartColors"
+    (chartClick)="chartClicked($event)"></canvas>
+  </div>
+  
+  <div class="arrow-button-container">
+    <ion-icon name="arrow-dropleft" class="arrow-button" (click)="previousMonth()"></ion-icon>
+    <div class="month-text">{{thisMonth}}월</div>
+    <ion-icon name="arrow-dropright" class="arrow-button" (click)="forwardMonth()"></ion-icon>
+  </div>
 </ion-content>
+
+<ion-footer>
+  <div class="reset-button-container">
+    <button class="reset-button" (click)="clearDB()">
+      Data Reset
+    </button>
+  </div>
+</ion-footer>
