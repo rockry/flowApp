@@ -4,9 +4,10 @@ import { BackgroundMode } from '@ionic-native/background-mode';
 import { NativeAudio } from '@ionic-native/native-audio';
 import { Storage } from '@ionic/storage'; // https://github.com/ionic-team/ionic/issues/8269, https://forum.ionicframework.com/t/persistent-no-sql-storage-in-ionic2-tutorial/55570
 import { dbService } from '../../services/dbService/db.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable() 
-class MyGlobals {
+export class MyGlobals {
     public static readonly CYCLE_IMG_PATH: string[] = ["assets/images/cycle_status_0.png", // https://stackoverflow.com/questions/36158848/what-is-the-best-way-to-declare-a-global-variable-in-angular-2-typescript
     "assets/images/cycle_status_1.png",             // need to adjust GLOBAL CONSTANT MANAGEMENT
     "assets/images/cycle_status_2.png",
@@ -23,9 +24,6 @@ class MyGlobals {
     "assets/images/round_button_blue.png",
     "assets/images/round_button_green.png",
     "assets/images/round_button_red.png"];
-    
-    public static readonly DEFAULT_BT_TXT: string = "START";
-    public static readonly BT_TXT: string[] = ["START", "몰입", "휴식", "중단"];
     
     public static readonly BT_STATUS_DEFAULT:number = 0;
     public static readonly BT_STATUS_FLOW:number = 1;
@@ -44,6 +42,10 @@ class MyGlobals {
 export class HomePage {
     public static readonly TAG: string = "HomePage";
     public static isAlarmSound: boolean = false;
+    
+    public static DEFAULT_BT_TXT: string = "START";
+    public static BT_TXT: string[] = ["START", "몰입", "휴식", "중단"];
+    
     currentCycleImage: string; // 화면에 표시되는 Cycle Image
     currentCycleStatus: number;
     
@@ -66,12 +68,35 @@ export class HomePage {
     todayTimeData : any;
     
     
-    constructor(public appCtrl: App, public platform: Platform, public toastCtrl: ToastController, public backgroundMode: BackgroundMode, private nativeAudio: NativeAudio, private storage: Storage, private dbservice:dbService) {
+    constructor(public appCtrl: App, public platform: Platform, public toastCtrl: ToastController, public backgroundMode: BackgroundMode, private nativeAudio: NativeAudio, private storage: Storage, private dbservice:dbService, translate: TranslateService) {
+        translate.setDefaultLang('ko');
+        translate.get('BUTTON_START').subscribe(
+            value => {
+                HomePage.DEFAULT_BT_TXT = value;
+                HomePage.BT_TXT[0] = value;
+            }
+        );
+        translate.get('BUTTON_FLOW').subscribe(
+            value => {
+                HomePage.BT_TXT[1] = value;
+            }
+        );
+        translate.get('BUTTON_REST').subscribe(
+            value => {
+                HomePage.BT_TXT[2] = value;
+            }
+        );
+        translate.get('BUTTON_STOP').subscribe(
+            value => {
+                HomePage.BT_TXT[3] = value;
+            }
+        );
+
         this.currentCycleStatus = 0;
         this.currentCycleImage = MyGlobals.CYCLE_IMG_PATH[0];
         this.buttonStatus = MyGlobals.BT_STATUS_DEFAULT;
         this.currentButtonImage = MyGlobals.BT_IMG_PATH[MyGlobals.BT_STATUS_DEFAULT];
-        this.buttonText = MyGlobals.BT_TXT[MyGlobals.BT_STATUS_DEFAULT];
+        this.buttonText = HomePage.BT_TXT[MyGlobals.BT_STATUS_DEFAULT];
         this.timerSettings = {
             current : 0,
             max : 25*60,
@@ -113,7 +138,7 @@ export class HomePage {
                         //PAUSE상태로 전환
                         this.buttonStatus = MyGlobals.BT_STATUS_PAUSE;
                         this.currentButtonImage = MyGlobals.BT_IMG_PATH[MyGlobals.BT_STATUS_PAUSE];
-                        this.buttonText = MyGlobals.BT_TXT[MyGlobals.BT_STATUS_PAUSE];
+                        this.buttonText = HomePage.BT_TXT[MyGlobals.BT_STATUS_PAUSE];
                         clearInterval(this.timer);
                         clearInterval(this.pauseTimer);
                     }else{
@@ -192,7 +217,7 @@ export class HomePage {
                 if(this.currentCycleStatus == 9) { //현재 cycle이 마지막 cycle(장시간휴식)이었을 경우
                     this.buttonStatus = MyGlobals.BT_STATUS_REST;
                     this.currentButtonImage = MyGlobals.BT_IMG_PATH[MyGlobals.BT_STATUS_REST];
-                    this.buttonText = MyGlobals.BT_TXT[MyGlobals.BT_STATUS_REST];
+                    this.buttonText = HomePage.BT_TXT[MyGlobals.BT_STATUS_REST];
                     this.timerSettings.max = 30*60;
                     this.timerText.max = this.timeToText(30*60);
                     clearInterval(this.pauseTimer);
@@ -202,7 +227,7 @@ export class HomePage {
                 } else if(this.currentCycleStatus%2 == 1) { //현재 cycle이 REST였을 경우
                     this.buttonStatus = MyGlobals.BT_STATUS_FLOW;
                     this.currentButtonImage = MyGlobals.BT_IMG_PATH[MyGlobals.BT_STATUS_FLOW];
-                    this.buttonText = MyGlobals.BT_TXT[MyGlobals.BT_STATUS_FLOW];
+                    this.buttonText = HomePage.BT_TXT[MyGlobals.BT_STATUS_FLOW];
                     clearInterval(this.pauseTimer);
                     this.timer = setInterval(()=>{
                         this.checkTime();
@@ -210,7 +235,7 @@ export class HomePage {
                 } else {
                     this.buttonStatus = MyGlobals.BT_STATUS_REST;
                     this.currentButtonImage = MyGlobals.BT_IMG_PATH[MyGlobals.BT_STATUS_REST];
-                    this.buttonText = MyGlobals.BT_TXT[MyGlobals.BT_STATUS_REST];
+                    this.buttonText = HomePage.BT_TXT[MyGlobals.BT_STATUS_REST];
                     clearInterval(this.pauseTimer);
                     this.timer = setInterval(()=>{
                         this.checkTime();
@@ -219,7 +244,7 @@ export class HomePage {
             } else { //상태가 FLOW였을 경우
                 this.buttonStatus = MyGlobals.BT_STATUS_PAUSE;
                 this.currentButtonImage = MyGlobals.BT_IMG_PATH[MyGlobals.BT_STATUS_PAUSE];
-                this.buttonText = MyGlobals.BT_TXT[MyGlobals.BT_STATUS_PAUSE];
+                this.buttonText = HomePage.BT_TXT[MyGlobals.BT_STATUS_PAUSE];
                 clearInterval(this.timer);
                 this.pauseTimer = setInterval(()=>{
                     this.checkPauseTime();
@@ -260,7 +285,7 @@ export class HomePage {
                     
                     this.buttonStatus = MyGlobals.BT_STATUS_REST;
                     this.currentButtonImage = MyGlobals.BT_IMG_PATH[MyGlobals.BT_STATUS_REST];
-                    this.buttonText = MyGlobals.BT_TXT[MyGlobals.BT_STATUS_REST];
+                    this.buttonText = HomePage.BT_TXT[MyGlobals.BT_STATUS_REST];
                     this.timerSettings.max = 5*60;
                     this.timerText.max = this.timeToText(this.timerSettings.max);
                 } else if(this.currentCycleStatus == 9) {         //마지막 status는 30분 휴식
@@ -272,7 +297,7 @@ export class HomePage {
                     }
                     this.buttonStatus = MyGlobals.BT_STATUS_REST;
                     this.currentButtonImage = MyGlobals.BT_IMG_PATH[MyGlobals.BT_STATUS_REST];
-                    this.buttonText = MyGlobals.BT_TXT[MyGlobals.BT_STATUS_REST];
+                    this.buttonText = HomePage.BT_TXT[MyGlobals.BT_STATUS_REST];
                     this.timerSettings.max = 30*60;
                     this.timerText.max = this.timeToText(this.timerSettings.max);
                 } else {        //Rest일 경우 Flow로 status, image, text, max값, max값text 변경
@@ -284,7 +309,7 @@ export class HomePage {
                     }
                     this.buttonStatus = MyGlobals.BT_STATUS_FLOW;
                     this.currentButtonImage = MyGlobals.BT_IMG_PATH[MyGlobals.BT_STATUS_FLOW];
-                    this.buttonText = MyGlobals.BT_TXT[MyGlobals.BT_STATUS_FLOW];
+                    this.buttonText = HomePage.BT_TXT[MyGlobals.BT_STATUS_FLOW];
                     this.timerSettings.max = 25*60;
                     this.timerText.max = this.timeToText(this.timerSettings.max);
                 }

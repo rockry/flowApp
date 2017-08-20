@@ -1,7 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { BaseChartDirective } from 'ng2-charts/ng2-charts';
 import { dbService } from '../../services/dbService/db.service';
+import { TranslateService } from '@ngx-translate/core';
 
 /**
 * Generated class for the Graph page.
@@ -9,7 +10,6 @@ import { dbService } from '../../services/dbService/db.service';
 * See http://ionicframework.com/docs/components/#navigation for more info
 * on Ionic pages and navigation.
 */
-@IonicPage()
 @Component({
     selector: 'page-graph',
     templateUrl: 'graph.html'
@@ -69,21 +69,34 @@ export class GraphPage {
     date : any;
     thisYear : number;
     thisMonth : number;
+
+    flowLabel : string;
+    interruptLabel : string;
     
     ionViewDidLoad() {
         console.log('ionViewDidLoad Graph');
     }
     
-    constructor(public navCtrl: NavController, private dbservice:dbService) {
+    constructor(public navCtrl: NavController, private dbservice:dbService, translate: TranslateService) {
         this.date = new Date();
+        translate.get('TIME_OF_FLOW').subscribe(
+            value => {
+                this.flowLabel = value;
+            }
+        );
+        translate.get('TIME_OF_INTERRUPT').subscribe(
+            value => {
+                this.interruptLabel = value;
+            }
+        );
         //this.initialize();
     }
     
     private initialize() {
         this.chartLabels = []; //X-axis, date
         this.chartData = [
-            { data: [], label: 'Time of Flow' },
-            { data: [], label: 'Time of interrupted' }
+            { data: [], label: this.flowLabel },
+            { data: [], label: this.interruptLabel }
         ];
         this.thisYear = this.date.getFullYear();
         this.thisMonth = (this.date.getMonth()+1);

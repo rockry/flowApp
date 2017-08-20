@@ -3,7 +3,7 @@
     <button ion-button menuToggle right>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title><span style="color: #c9c9c9 !important;">Finding Flow</span></ion-title>
+    <ion-title><span style="color: #c9c9c9 !important;font-size: 1.5rem;">{{ 'TITLE' | translate }}</span></ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -39,8 +39,8 @@
   </div>
 
   <div class="extra-text-bottom"><span>{{todayFlowTimeText}} / {{todayPauseTimeText}}</span><br>
-  <span>몰입시간 / 중단시간</span><br>
-  <span>( 오늘 )</span>
+  <span>{{ 'TIME_OF_FLOW' | translate }} / {{ 'TIME_OF_INTERRUPT' | translate }}</span><br>
+  <span>( {{ 'TODAY' | translate }} )</span>
   </div>
 
 </ion-content>

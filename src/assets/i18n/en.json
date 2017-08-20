@@ -1,0 +1,14 @@
+{
+    "TITLE": "Finding Flow",
+    "TIME_OF_FLOW": "Time of Flow",
+    "TIME_OF_INTERRUPT": "Interrupted",
+    "TODAY" : "Today",
+    "BUTTON_START": "START",
+    "BUTTON_FLOW": "FLOW",
+    "BUTTON_REST": "REST",
+    "BUTTON_STOP": "STOP",
+    "MENU": "Menu",
+    "SCREEN_ALWAY_ON": "Always On Screen",
+    "ALARM_SOUND": "Sound Alarm",
+    "STATISTICS_GRAPH": "Statistics Graph"
+}

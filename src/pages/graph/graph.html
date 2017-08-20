@@ -6,7 +6,7 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title>Statistics Graph</ion-title>
+    <ion-title>{{ 'STATISTICS_GRAPH' | translate }}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -25,7 +25,7 @@
   
   <div class="arrow-button-container">
     <ion-icon name="arrow-dropleft" class="arrow-button" (click)="previousMonth()"></ion-icon>
-    <div class="month-text">{{thisMonth}}월</div>
+    <div class="month-text">{{queryDate}}</div>
     <ion-icon name="arrow-dropright" class="arrow-button" (click)="forwardMonth()"></ion-icon>
   </div>
 </ion-content>

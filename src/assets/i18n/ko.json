@@ -1,0 +1,14 @@
+{
+    "TITLE": "몰입 타이머",
+    "TIME_OF_FLOW": "몰입시간",
+    "TIME_OF_INTERRUPT": "중단시간",
+    "TODAY": "오늘",
+    "BUTTON_START": "시작",
+    "BUTTON_FLOW": "몰입",
+    "BUTTON_REST": "휴식",
+    "BUTTON_STOP": "중단",
+    "MENU": "메뉴",
+    "SCREEN_ALWAY_ON": "스크린 항상 켜기",
+    "ALARM_SOUND": "소리 알림",
+    "STATISTICS_GRAPH": "통계 그래프"
+}

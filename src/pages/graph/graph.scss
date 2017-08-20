@@ -5,10 +5,13 @@ page-graph {
     text-align: center;
 }
 .reset-button {
-    width: 100%;
+    width: 90%;
     font-size: 2rem;
     color: #eeeeee;
-    background-color: #666666;
+    background-color: #414b5a;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
 }
 .reset-button.arrow-button:active {
     border: 2px solid transparent;
